@@ -82,7 +82,7 @@ docker run -p 4141:4141 -v $(pwd)/copilot-data:/root/.local/share/copilot-api co
 
 ### Docker with Environment Variables
 
-You can pass the GitHub token directly to the container using environment variables:
+You can pass the GitHub token and account type directly to the container using environment variables:
 
 ```sh
 # Build with GitHub token
@@ -91,9 +91,16 @@ docker build --build-arg GH_TOKEN=your_github_token_here -t copilot-api .
 # Run with GitHub token
 docker run -p 4141:4141 -e GH_TOKEN=your_github_token_here copilot-api
 
+# Run with GitHub token and business account type
+docker run -p 4141:4141 -e GH_TOKEN=your_token -e ACCOUNT_TYPE=business copilot-api
+
 # Run with additional options
 docker run -p 4141:4141 -e GH_TOKEN=your_token copilot-api start --verbose --port 4141
 ```
+
+**Environment Variables:**
+- `GH_TOKEN`: Your GitHub personal access token (generated using the `auth` subcommand)
+- `ACCOUNT_TYPE`: Account type to use (`individual`, `business`, or `enterprise`). Defaults to `individual` if not set.
 
 ### Docker Compose Example
 
@@ -106,6 +113,7 @@ services:
       - "4141:4141"
     environment:
       - GH_TOKEN=your_github_token_here
+      - ACCOUNT_TYPE=business
     restart: unless-stopped
 ```
 
